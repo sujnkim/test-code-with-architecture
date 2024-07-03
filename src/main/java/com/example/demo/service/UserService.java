@@ -38,7 +38,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserEntity createUser(UserCreateDto userCreateDto) {
+    public UserEntity create(UserCreateDto userCreateDto) {
         UserEntity userEntity = new UserEntity();
         userEntity.setEmail(userCreateDto.getEmail());
         userEntity.setNickname(userCreateDto.getNickname());
@@ -52,7 +52,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserEntity updateUser(long id, UserUpdateDto userUpdateDto) {
+    public UserEntity update(long id, UserUpdateDto userUpdateDto) {
         UserEntity userEntity = getById(id);
         userEntity.setNickname(userUpdateDto.getNickname());
         userEntity.setAddress(userUpdateDto.getAddress());
