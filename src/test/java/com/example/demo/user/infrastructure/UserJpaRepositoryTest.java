@@ -12,10 +12,10 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @DataJpaTest(showSql = true)
 @Sql("/sql/user-repository-test-data.sql")
-public class UserRepositoryTest {
+public class UserJpaRepositoryTest {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserJpaRepository userJpaRepository;
 
 //    @Test
 //    void UserRepository_가_제대로_연결되었다() {
@@ -38,7 +38,7 @@ public class UserRepositoryTest {
     void findByIdAndStatus_로_유저_데이터를_찾아올_수_있다() {
         // given
         // when
-        Optional<UserEntity> result = userRepository.findByIdAndStatus(1, UserStatus.ACTIVE);
+        Optional<UserEntity> result = userJpaRepository.findByIdAndStatus(1, UserStatus.ACTIVE);
 
         // then
         assertThat(result.isPresent()).isTrue();
@@ -48,7 +48,7 @@ public class UserRepositoryTest {
     void findByIdAndStatus_는_데이터가_없으면_Optional_empty_를_내려준다() {
         // given
         // when
-        Optional<UserEntity> result = userRepository.findByIdAndStatus(1, UserStatus.PENDING);
+        Optional<UserEntity> result = userJpaRepository.findByIdAndStatus(1, UserStatus.PENDING);
 
         // then
         assertThat(result.isEmpty()).isTrue();
@@ -59,7 +59,7 @@ public class UserRepositoryTest {
     void findByEmailAndStatus_로_유저_데이터를_찾아올_수_있다() {
         // given
         // when
-        Optional<UserEntity> result = userRepository.findByEmailAndStatus("abc@test.com", UserStatus.ACTIVE);
+        Optional<UserEntity> result = userJpaRepository.findByEmailAndStatus("abc@test.com", UserStatus.ACTIVE);
 
         // then
         assertThat(result.isPresent()).isTrue();
@@ -69,7 +69,7 @@ public class UserRepositoryTest {
     void findByEmailAndStatus_는_데이터가_없으면_Optional_empty_를_내려준다() {
         // given
         // when
-        Optional<UserEntity> result = userRepository.findByEmailAndStatus("abc@test.com", UserStatus.PENDING);
+        Optional<UserEntity> result = userJpaRepository.findByEmailAndStatus("abc@test.com", UserStatus.PENDING);
 
         // then
         assertThat(result.isEmpty()).isTrue();
