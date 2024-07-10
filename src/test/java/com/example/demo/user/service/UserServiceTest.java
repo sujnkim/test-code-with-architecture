@@ -2,11 +2,10 @@ package com.example.demo.user.service;
 
 import com.example.demo.common.domain.exception.CertificationCodeNotMatchedException;
 import com.example.demo.common.domain.exception.ResourceNotFoundException;
-import com.example.demo.user.domain.UserStatus;
+import com.example.demo.user.domain.User;
 import com.example.demo.user.domain.UserCreate;
+import com.example.demo.user.domain.UserStatus;
 import com.example.demo.user.domain.UserUpdate;
-import com.example.demo.user.infrastructure.UserEntity;
-import com.example.demo.user.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +40,7 @@ public class UserServiceTest {
         String email = "abc@test.com";
 
         // when
-        UserEntity result = userService.getByEmail(email);
+        User result = userService.getByEmail(email);
 
         // then
         assertThat(result.getNickname()).isEqualTo("abc");
@@ -55,7 +54,7 @@ public class UserServiceTest {
         // when
         // then
         assertThatThrownBy(() -> {
-            UserEntity result = userService.getByEmail(email);
+            userService.getByEmail(email);
         }).isInstanceOf(ResourceNotFoundException.class);
     }
 
@@ -64,7 +63,7 @@ public class UserServiceTest {
     void getById는_ACTIVE_상태인_유저를_가져온다() {
         // given
         // when
-        UserEntity result = userService.getById(1);
+        User result = userService.getById(1);
 
         // then
         assertThat(result.getNickname()).isEqualTo("abc");
@@ -78,7 +77,7 @@ public class UserServiceTest {
         // when
         // then
         assertThatThrownBy(() -> {
-            UserEntity result = userService.getById(2);
+            userService.getById(2);
         }).isInstanceOf(ResourceNotFoundException.class);
     }
 
@@ -95,7 +94,7 @@ public class UserServiceTest {
                 .send(any(SimpleMailMessage.class));
 
         // when
-        UserEntity result = userService.create(userCreate);
+        User result = userService.create(userCreate);
 
         // then
         assertThat(result.getId()).isNotNull();
@@ -117,10 +116,10 @@ public class UserServiceTest {
         userService.update(1, userUpdate);
 
         // then
-        UserEntity userEntity = userService.getById(1);
-        assertThat(userEntity.getId()).isNotNull();
-        assertThat(userEntity.getAddress()).isEqualTo("Paris");
-        assertThat(userEntity.getNickname()).isEqualTo("abc-update");
+        User user = userService.getById(1);
+        assertThat(user.getId()).isNotNull();
+        assertThat(user.getAddress()).isEqualTo("Paris");
+        assertThat(user.getNickname()).isEqualTo("abc-update");
     }
 
 
@@ -131,8 +130,8 @@ public class UserServiceTest {
         userService.login(1);
 
         // then
-        UserEntity userEntity = userService.getById(1);
-        assertThat(userEntity.getLastLoginAt()).isGreaterThan(0L);   //테스트 할 방법?
+        User user = userService.getById(1);
+        assertThat(user.getLastLoginAt()).isGreaterThan(0L);   //테스트 할 방법?
         //assertThat(userEntity.getLastLoginAt()).isEqualTo("T.T"); //FIXME
     }
 
@@ -144,8 +143,8 @@ public class UserServiceTest {
         userService.verifyEmail(2, "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaab");
 
         // then
-        UserEntity userEntity = userService.getById(2);
-        assertThat(userEntity.getStatus()).isEqualTo(UserStatus.ACTIVE);
+        User user = userService.getById(2);
+        assertThat(user.getStatus()).isEqualTo(UserStatus.ACTIVE);
     }
 
     @Test
@@ -153,7 +152,7 @@ public class UserServiceTest {
         // given
         // when
         // then
-        assertThatThrownBy(()->{
+        assertThatThrownBy(() -> {
             userService.verifyEmail(2, "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaac");
         }).isInstanceOf(CertificationCodeNotMatchedException.class);
     }
