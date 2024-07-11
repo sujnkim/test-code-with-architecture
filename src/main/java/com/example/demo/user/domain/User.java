@@ -33,7 +33,7 @@ public class User {
                 .nickname(userCreate.getNickname())
                 .address(userCreate.getAddress())
                 .status(UserStatus.PENDING)
-                .certificationCode(uuidHolder.randdom())
+                .certificationCode(uuidHolder.random())
                 .build();
     }
 

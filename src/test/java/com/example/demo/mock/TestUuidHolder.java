@@ -9,7 +9,7 @@ public class TestUuidHolder implements UuidHolder {
     private final String uuid;
 
     @Override
-    public String randdom() {
+    public String random() {
         return uuid;
     }
 }

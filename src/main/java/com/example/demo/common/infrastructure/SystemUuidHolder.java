@@ -10,7 +10,7 @@ public class SystemUuidHolder implements UuidHolder {
 
 
     @Override
-    public String randdom() {
+    public String random() {
         return UUID.randomUUID().toString();
     }
 }
