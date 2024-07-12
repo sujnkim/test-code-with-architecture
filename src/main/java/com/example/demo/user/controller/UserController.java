@@ -1,10 +1,10 @@
 package com.example.demo.user.controller;
 
-import com.example.demo.user.controller.response.UserResponse;
+import com.example.demo.user.controller.port.UserService;
 import com.example.demo.user.controller.response.MyProfileResponse;
+import com.example.demo.user.controller.response.UserResponse;
 import com.example.demo.user.domain.User;
 import com.example.demo.user.domain.UserUpdate;
-import com.example.demo.user.service.UserService;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -48,6 +48,7 @@ public class UserController {
     ) {
         User user = userService.getByEmail(email);
         userService.login(user.getId());
+        user = userService.getByEmail(email);
         return ResponseEntity
                 .ok()
                 .body(MyProfileResponse.from(user));
